@@ -5,7 +5,7 @@ import { usePlayer } from "@/components/usePlayer";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const cellSize = 30;
+// const cellSize = 30;
 
 export default function MazePage() {
   const [difficulty, setDifficulty] = useState("");
@@ -15,12 +15,24 @@ export default function MazePage() {
   const [mazeGrid, setMazeGrid] = useState<Cell[][]>([]);
   const [level, setLevel] = useState(1);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [cellSize, setCellSize] = useState(30); 
+
+  useEffect(() => {
+    if (mazeGrid.length && mazeGrid[0].length) {
+      const availableWidth = window.innerWidth * 0.9;  // 90% of viewport width
+      const availableHeight = window.innerHeight * 0.9; // 80% of viewport height
+
+      const maxCellWidth = availableWidth / mazeGrid[0].length;
+      const maxCellHeight = availableHeight / mazeGrid.length;
+
+      setCellSize(Math.floor(Math.min(maxCellWidth, maxCellHeight)));
+    }
+  }, [mazeGrid]);
 
   const handleWin = () => {
     setShowPrompt(true);
-    toast.success(`You won Level ${level}! Moving to next...`)
+    toast.success(`You won this level ${level}!`);
   };
-
   const player = usePlayer(mazeGrid, rows, cols, handleWin);
 
   useEffect(() => {
@@ -31,17 +43,17 @@ export default function MazePage() {
       setCols(10);
       setGrowthStep(1);
     } else if (difficulty === "medium") {
-      setRows(18);
-      setCols(18);
+      setRows(14);
+      setCols(14);
       setGrowthStep(2);
     } else if (difficulty === "hard") {
-      setRows(30);
-      setCols(30);
+      setRows(25);
+      setCols(25);
       setGrowthStep(3);
     } else if (difficulty === "superhard") {
-      setRows(40);
-      setCols(40);
-      setGrowthStep(4);
+      setRows(35);
+      setCols(35);
+      setGrowthStep(0);
     }
   }, [difficulty]);
 
@@ -61,30 +73,38 @@ export default function MazePage() {
     setShowPrompt(false);
   };
 
+  window.addEventListener("keydown", (e) => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      e.preventDefault(); 
+    }
+  });
+
+
+
   return (
     <>
-      <h1 className="text-4xl font-bold mb-6 text-center">
+      <h1 className="text-4xl font-bold mb-10 text-center">
         Maze Runner Adventure
       </h1>
-      {!difficulty && (
-        <div className="flex justify-center mt-5">
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            className="p-2 rounded-md bg-gradient-to-b from-[#A83159] to-[#922668] text-white border border-[#7dd3fc] shadow-lg shadow-[#0284c7] focus:ring-2 focus:ring-[#38bdf8] focus:outline-none transition-all duration-200"
-          >
-            <option value="" className="bg-[#922668]">Select Difficulty</option>
-            <option value="easy" className="bg-[#922668]">Easy</option>
-            <option value="medium" className="bg-[#922668]">Medium</option>
-            <option value="hard" className="bg-[#922668]">Hard</option>
-            <option value="superhard" className="bg-[#922668]">Super Hard</option>
-          </select>
-        </div>
-      )}
+
+      <div className="flex justify-center mt-5">
+        <select
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+          className="p-2 rounded-md bg-gradient-to-b from-[#48234e] to-[#922668] text-white border border-[#7dd3fc] shadow-lg shadow-[#0284c7] focus:ring-2 focus:ring-[#3A1C3F] focus:outline-none transition-all duration-200 cursor-pointer"
+        >
+          <option value="" className="bg-[#A75F91]">Select Difficulty</option>
+          <option value="easy" className="bg-[#A75F91]">Easy</option>
+          <option value="medium" className="bg-[#A75F91]">Medium</option>
+          <option value="hard" className="bg-[#A75F91]">Hard</option>
+          <option value="superhard" className="bg-[#A75F91]">Super Hard</option>
+        </select>
+      </div>
+
 
       {difficulty && (
         <>
-          <p className="text-xl text-center mb-8 opacity-90">
+          <p className="text-xl text-center my-5 opacity-90">
             Navigate through the maze using arrow keys!
           </p>
           <h2 className="text-center">Maze Game - Level {level}</h2>

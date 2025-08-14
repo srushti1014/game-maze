@@ -48,7 +48,7 @@ export function usePlayer(
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [player, mazeGrid, rows, cols, onWin]);
 
-  // reset "won" guard & player when maze changes
+  // reset won, guard & player when maze change
   useEffect(() => {
     wonRef.current = false;
     setPlayer({ row: 0, col: 0 });

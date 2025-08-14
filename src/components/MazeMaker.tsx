@@ -20,7 +20,7 @@ export default function MazeMaker({
     const ctx = canvas.getContext("2d")!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background with subtle gradient
+    // background 
     const gradient = ctx.createLinearGradient(
       0,
       0,
@@ -32,7 +32,7 @@ export default function MazeMaker({
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw maze walls with improved styling
+    // maze walls
     ctx.strokeStyle = "#e9d5ff";
     ctx.lineWidth = 3;
     ctx.lineJoin = "round";
@@ -70,7 +70,7 @@ export default function MazeMaker({
       });
     });
 
-    // Draw player with improved styling
+    // player 
     ctx.fillStyle = "#38bdf8";
     ctx.shadowColor = "#0284c7";
     ctx.shadowBlur = 15;
@@ -82,7 +82,9 @@ export default function MazeMaker({
       0,
       Math.PI * 2
     );
+
     ctx.fill();
+
     ctx.shadowBlur = 0;
 
     // Add subtle inner glow to player
@@ -95,6 +97,7 @@ export default function MazeMaker({
       0,
       Math.PI * 2
     );
+
     ctx.fill();
 
     // Draw start point
