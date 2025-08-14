@@ -89,7 +89,7 @@ export class MazeBoard {
         next.visited = true;
         stack.push(next);
       } else {
-        // Backtrack
+        // Backtracking if thre is no path 
         stack.pop();
       }
     }

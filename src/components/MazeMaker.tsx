@@ -96,13 +96,29 @@ export default function MazeMaker({
       Math.PI * 2
     );
     ctx.fill();
+
+    // Draw start point
+    // ctx.fillStyle = "#22c55e"; // green
+    // ctx.beginPath();
+    // ctx.arc(cellSize / 2, cellSize / 2, cellSize / 3, 0, Math.PI * 2);
+    // ctx.fill();
+
+    // Draw end point
+    ctx.fillStyle = "#22c55e"; // red
+    ctx.beginPath();
+    ctx.arc(
+      (mazeGrid[0].length - 0.5) * cellSize,
+      (mazeGrid.length - 0.5) * cellSize,
+      cellSize / 3,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
   }, [mazeGrid, cellSize, player]);
 
   return (
     <>
-
-      <div className="relative inline-block rounded-xl overflow-hidden shadow-lg border-2 border-purple-300/30">
-
+      <div className="relative inline-block overflow-hidden shadow-lg border-2 border-purple-300/30">
         <canvas
           ref={canvasRef}
           width={mazeGrid[0]?.length * cellSize || 0}
@@ -120,6 +136,112 @@ export default function MazeMaker({
     </>
   );
 }
+
+// "use client";
+// import { useEffect, useRef } from "react";
+// import { Cell } from "@/utils/mazeboard";
+
+// interface MazeCanvasProps {
+//   mazeGrid: Cell[][];
+//   cellSize: number;
+//   player: { row: number; col: number };
+// }
+
+// export default function MazeMaker({
+//   mazeGrid,
+//   cellSize,
+//   player,
+// }: MazeCanvasProps) {
+//   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+//   useEffect(() => {
+//     const canvas = canvasRef.current!;
+//     const ctx = canvas.getContext("2d")!;
+//     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+//     // Draw background
+//     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+//     gradient.addColorStop(0, "#A83159");
+//     gradient.addColorStop(1, "#922668");
+//     ctx.fillStyle = gradient;
+//     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+//     // Draw maze walls
+//     ctx.strokeStyle = "#e9d5ff";
+//     ctx.lineWidth = 3;
+//     ctx.lineJoin = "round";
+//     ctx.lineCap = "round";
+
+//     mazeGrid.forEach((row) => {
+//       row.forEach((cell) => {
+//         const x = cell.col * cellSize;
+//         const y = cell.row * cellSize;
+
+//         if (cell.walls.top) {
+//           ctx.beginPath();
+//           ctx.moveTo(x, y);
+//           ctx.lineTo(x + cellSize, y);
+//           ctx.stroke();
+//         }
+//         if (cell.walls.right) {
+//           ctx.beginPath();
+//           ctx.moveTo(x + cellSize, y);
+//           ctx.lineTo(x + cellSize, y + cellSize);
+//           ctx.stroke();
+//         }
+//         if (cell.walls.bottom) {
+//           ctx.beginPath();
+//           ctx.moveTo(x, y + cellSize);
+//           ctx.lineTo(x + cellSize, y + cellSize);
+//           ctx.stroke();
+//         }
+//         if (cell.walls.left) {
+//           ctx.beginPath();
+//           ctx.moveTo(x, y);
+//           ctx.lineTo(x, y + cellSize);
+//           ctx.stroke();
+//         }
+//       });
+//     });
+
+//     // Load and draw rocket (player)
+//     const rocketImg = new Image();
+//     rocketImg.src = "/vector.jpg"; // your rocket image path
+//     rocketImg.onload = () => {
+//       ctx.drawImage(
+//         rocketImg,
+//         player.col * cellSize + cellSize * 0.1,
+//         player.row * cellSize + cellSize * 0.1,
+//         cellSize * 0.8,
+//         cellSize * 0.8
+//       );
+//     };
+
+//     // Load and draw Earth (goal)
+//     const earthImg = new Image();
+//     earthImg.src = "/earth.png"; // your earth image path
+//     earthImg.onload = () => {
+//       ctx.drawImage(
+//         earthImg,
+//         (mazeGrid[0].length - 1) * cellSize + cellSize * 0.1,
+//         (mazeGrid.length - 1) * cellSize + cellSize * 0.1,
+//         cellSize * 0.8,
+//         cellSize * 0.8
+//       );
+//     };
+//   }, [mazeGrid, cellSize, player]);
+
+//   return (
+//     <div className="relative inline-block rounded-xl overflow-hidden shadow-lg border-2 border-purple-300/30">
+//       <canvas
+//         ref={canvasRef}
+//         width={mazeGrid[0]?.length * cellSize || 0}
+//         height={mazeGrid.length * cellSize || 0}
+//         className="block"
+//       />
+//     </div>
+//   );
+// }
 
 // "use client";
 // import { Cell } from "@/utils/mazeboard";

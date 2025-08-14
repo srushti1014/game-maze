@@ -8,16 +8,15 @@ import toast from "react-hot-toast";
 const cellSize = 30;
 
 export default function MazePage() {
+  const [difficulty, setDifficulty] = useState("");
   const [rows, setRows] = useState(0);
   const [cols, setCols] = useState(0);
+  const [growthStep, setGrowthStep] = useState(0);
   const [mazeGrid, setMazeGrid] = useState<Cell[][]>([]);
   const [level, setLevel] = useState(1);
-  const [difficulty, setDifficulty] = useState("");
-  const [growthStep, setGrowthStep] = useState(0);
   const [showPrompt, setShowPrompt] = useState(false);
 
   const handleWin = () => {
-    // alert(`You won Level ${level}! Moving to next...`);
     setShowPrompt(true);
     toast.success(`You won Level ${level}! Moving to next...`)
   };
@@ -28,8 +27,8 @@ export default function MazePage() {
     if (!difficulty) return;
 
     if (difficulty === "easy") {
-      setRows(5);
-      setCols(5);
+      setRows(10);
+      setCols(10);
       setGrowthStep(1);
     } else if (difficulty === "medium") {
       setRows(18);
@@ -50,6 +49,7 @@ export default function MazePage() {
     if (rows && cols) {
       const newRows = rows + (level - 1) * growthStep;
       const newCols = cols + (level - 1) * growthStep;
+
       const maze = new MazeBoard(newRows, newCols);
       maze.generateMaze();
       setMazeGrid(maze.getGrid());
@@ -63,6 +63,9 @@ export default function MazePage() {
 
   return (
     <>
+      <h1 className="text-4xl font-bold mb-6 text-center">
+        Maze Runner Adventure
+      </h1>
       {!difficulty && (
         <div className="flex justify-center mt-5">
           <select
@@ -81,9 +84,6 @@ export default function MazePage() {
 
       {difficulty && (
         <>
-          <h1 className="text-4xl font-bold mb-6 text-center">
-            Maze Runner Adventure
-          </h1>
           <p className="text-xl text-center mb-8 opacity-90">
             Navigate through the maze using arrow keys!
           </p>
