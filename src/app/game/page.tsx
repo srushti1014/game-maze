@@ -15,7 +15,18 @@ export default function MazePage() {
   const [mazeGrid, setMazeGrid] = useState<Cell[][]>([]);
   const [level, setLevel] = useState(1);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [cellSize, setCellSize] = useState(30); 
+  const [cellSize, setCellSize] = useState(30);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     if (mazeGrid.length && mazeGrid[0].length) {
@@ -73,11 +84,8 @@ export default function MazePage() {
     setShowPrompt(false);
   };
 
-  window.addEventListener("keydown", (e) => {
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-      e.preventDefault(); 
-    }
-  });
+
+
 
 
 
