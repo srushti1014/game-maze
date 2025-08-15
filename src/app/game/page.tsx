@@ -77,7 +77,7 @@ export default function MazePage() {
       maze.generateMaze();
       setMazeGrid(maze.getGrid());
     }
-  }, [rows, cols, level]);
+  }, [rows, cols, level, growthStep]);
 
   const nextLevel = () => {
     setLevel(prev => prev + 1);
